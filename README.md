@@ -2,6 +2,8 @@
 
 The official Node.js client for the [Trueform email validation API](https://trueform.cloud/docs/).
 
+[Node.js SDK documentation](https://trueform.cloud/docs/node/) | [API reference](https://trueform.cloud/docs/api-reference/)
+
 ## Install
 
 ```bash
@@ -124,3 +126,10 @@ const trueform = new Trueform()
 npm install
 npm run check
 ```
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Report vulnerabilities
+through the process in [SECURITY.md](SECURITY.md).
+
+## License
+
+MIT. See [LICENSE](LICENSE).

@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest'
 import Trueform, {
   TrueformAPIError,
+  TrueformConnectionError,
   TrueformInvalidRequestError,
   TrueformRateLimitError,
   TrueformTimeoutError,
@@ -141,5 +142,76 @@ describe('Trueform', () => {
       code: 'invalid_response',
       status: 200,
     } satisfies Partial<TrueformAPIError>)
+  })
+
+  it('rejects an incomplete validation response', async () => {
+    const fetcher = fetchMock(async () => jsonResponse({ email: 'user@example.com' }))
+    const trueform = new Trueform({ fetch: fetcher, maxRetries: 0 })
+
+    await expect(trueform.validations.create({ email: 'user@example.com' })).rejects.toMatchObject({
+      name: 'TrueformAPIError',
+      code: 'invalid_response',
+    } satisfies Partial<TrueformAPIError>)
+  })
+
+  it('does not retry after the caller aborts a request', async () => {
+    const fetcher = fetchMock(
+      async (_input, init) =>
+        await new Promise<Response>((_resolve, reject) => {
+          init?.signal?.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')))
+        }),
+    )
+    const trueform = new Trueform({ fetch: fetcher })
+    const controller = new AbortController()
+    const request = trueform.validations.create(
+      { email: 'user@example.com' },
+      { signal: controller.signal },
+    )
+
+    controller.abort()
+
+    await expect(request).rejects.toMatchObject({
+      name: 'TrueformConnectionError',
+      code: 'request_aborted',
+    } satisfies Partial<TrueformConnectionError>)
+    expect(fetcher).toHaveBeenCalledOnce()
+  })
+
+  it('stops after the configured retry count', async () => {
+    const fetcher = fetchMock(async () => jsonResponse({ error: 'Unavailable' }, 503))
+    const trueform = new Trueform({ fetch: fetcher, maxRetries: 1 })
+
+    await expect(trueform.validations.create({ email: 'user@example.com' })).rejects.toMatchObject({
+      name: 'TrueformAPIError',
+      status: 503,
+    })
+    expect(fetcher).toHaveBeenCalledTimes(2)
+  })
+
+  it('parses an HTTP-date Retry-After header', async () => {
+    const retryDate = new Date(Date.now() + 5_000).toUTCString()
+    const fetcher = fetchMock(async () =>
+      jsonResponse({ error: 'Too Many Requests' }, 429, { 'Retry-After': retryDate }),
+    )
+    const trueform = new Trueform({ fetch: fetcher, maxRetries: 0 })
+
+    try {
+      await trueform.validations.create({ email: 'user@example.com' })
+      throw new Error('Expected the request to fail.')
+    } catch (error) {
+      expect(error).toBeInstanceOf(TrueformRateLimitError)
+      expect((error as TrueformRateLimitError).retryAfter).toBeGreaterThan(0)
+      expect((error as TrueformRateLimitError).retryAfter).toBeLessThanOrEqual(5_000)
+    }
+  })
+
+  it('rejects invalid client options', () => {
+    expect(() => new Trueform({ timeout: 0 })).toThrow('timeout must be a positive integer')
+    expect(() => new Trueform({ maxRetries: -1 })).toThrow(
+      'maxRetries must be a non-negative integer',
+    )
+    expect(() => new Trueform({ baseURL: 'ftp://example.com' })).toThrow(
+      'baseURL must use HTTP or HTTPS',
+    )
   })
 })

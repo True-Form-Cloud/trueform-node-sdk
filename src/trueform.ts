@@ -8,10 +8,13 @@ import {
 import { ValidationsResource } from './resources/validations.js'
 import type { RequestOptions, TrueformOptions } from './types.js'
 
+declare const __TRUEFORM_VERSION__: string
+
 const DEFAULT_BASE_URL = 'https://trueform-main-069715d.d2.zuplo.dev'
 const DEFAULT_TIMEOUT = 10_000
 const DEFAULT_MAX_RETRIES = 2
 const MAX_RETRY_DELAY = 60_000
+const SDK_VERSION = typeof __TRUEFORM_VERSION__ === 'undefined' ? 'dev' : __TRUEFORM_VERSION__
 
 interface InternalRequestOptions extends RequestOptions {
   body?: Record<string, unknown>
@@ -46,10 +49,15 @@ export class Trueform {
     }
 
     this.fetcher = fetcher
-    this.validations = new ValidationsResource(this)
+    this.validations = new ValidationsResource((email, requestOptions) =>
+      this.request<unknown>('POST', '/v1/validations', {
+        body: { email },
+        ...requestOptions,
+      }),
+    )
   }
 
-  async request<T>(
+  private async request<T>(
     method: 'POST',
     path: string,
     options: InternalRequestOptions = {},
@@ -85,7 +93,7 @@ export class Trueform {
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          'User-Agent': 'trueform-node/0.1.0',
+          'User-Agent': `trueform-node/${SDK_VERSION}`,
         },
         body: body === undefined ? undefined : JSON.stringify(body),
         signal: requestSignal.signal,

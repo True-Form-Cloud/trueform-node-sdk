@@ -9,26 +9,41 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "sideEffects": false,
+  "author": "Trueform",
   "engines": {
     "node": ">=20"
   },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --sourcemap --clean",
+    "build": "tsup",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "npm run typecheck && npm test && npm run build",
-    "prepublishOnly": "npm run check"
+    "test:package": "node scripts/check-package.mjs",
+    "lint:package": "publint && attw --pack .",
+    "check:runtime": "npm run typecheck && npm test && npm run build && npm run test:package",
+    "check": "npm run check:runtime && npm run lint:package",
+    "prepublishOnly": "npm run check:runtime"
   },
   "keywords": [
     "email",
@@ -39,16 +54,21 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/abdellahi-brahim/trueform-node.git"
+    "url": "git+https://github.com/True-Form-Cloud/trueform-node-sdk.git"
   },
-  "homepage": "https://trueform.cloud/docs/",
+  "homepage": "https://trueform.cloud/docs/node/",
   "bugs": {
-    "url": "https://github.com/abdellahi-brahim/trueform-node/issues"
+    "url": "https://github.com/True-Form-Cloud/trueform-node-sdk/issues"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.2",
     "@types/node": "^24.0.0",
+    "publint": "^0.3.16",
     "tsup": "^8.5.0",
     "typescript": "^5.9.0",
     "vitest": "^4.0.0"
+  },
+  "overrides": {
+    "esbuild": "^0.28.1"
   }
 }

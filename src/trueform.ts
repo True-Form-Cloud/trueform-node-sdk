@@ -10,7 +10,7 @@ import type { RequestOptions, TrueformOptions } from './types.js'
 
 declare const __TRUEFORM_VERSION__: string
 
-const DEFAULT_BASE_URL = 'https://trueform-main-069715d.d2.zuplo.dev'
+const DEFAULT_BASE_URL = 'https://api.trueform.cloud'
 const DEFAULT_TIMEOUT = 10_000
 const DEFAULT_MAX_RETRIES = 2
 const MAX_RETRY_DELAY = 60_000

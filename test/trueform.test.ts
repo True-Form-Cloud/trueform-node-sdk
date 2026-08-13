@@ -40,7 +40,7 @@ describe('Trueform', () => {
 
     expect(fetcher).toHaveBeenCalledOnce()
     const [url, init] = vi.mocked(fetcher).mock.calls[0]!
-    expect(url).toBe('https://trueform-main-069715d.d2.zuplo.dev/v1/validations')
+    expect(url).toBe('https://api.trueform.cloud/v1/validations')
     expect(init?.method).toBe('POST')
     expect(init?.body).toBe(JSON.stringify({ email: 'User@Example.com' }))
   })

@@ -1,0 +1,54 @@
+{
+  "name": "trueform-node",
+  "version": "0.1.0",
+  "description": "Official Node.js SDK for the Trueform email validation API",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --sourcemap --clean",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run typecheck && npm test && npm run build",
+    "prepublishOnly": "npm run check"
+  },
+  "keywords": [
+    "email",
+    "email-validation",
+    "nodejs",
+    "typescript",
+    "trueform"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abdellahi-brahim/trueform-node.git"
+  },
+  "homepage": "https://trueform.cloud/docs/",
+  "bugs": {
+    "url": "https://github.com/abdellahi-brahim/trueform-node/issues"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.0",
+    "vitest": "^4.0.0"
+  }
+}

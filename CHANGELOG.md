@@ -2,6 +2,10 @@
 
 All notable changes to the Trueform Node.js SDK are documented here.
 
+## [0.1.1] - 2026-08-13
+
+- Reworded the client documentation to describe its resource-based interface directly.
+
 ## [0.1.0] - 2026-08-13
 
 - Added the `Trueform` client and `validations.create` resource interface.

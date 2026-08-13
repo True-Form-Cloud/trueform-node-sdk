@@ -30,7 +30,7 @@ function fetchMock(implementation: typeof fetch): typeof fetch {
 }
 
 describe('Trueform', () => {
-  it('uses a Stripe-style validations.create interface', async () => {
+  it('uses a validations.create resource interface', async () => {
     const fetcher = fetchMock(async () => jsonResponse(validation))
     const trueform = new Trueform({ fetch: fetcher })
 

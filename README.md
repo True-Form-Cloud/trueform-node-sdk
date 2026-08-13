@@ -29,7 +29,7 @@ if (validation.is_deliverable) {
 }
 ```
 
-The resource interface follows the same shape as Stripe's Node.js SDK:
+The client uses a resource-based interface:
 
 ```ts
 trueform.validations.create(params, options)

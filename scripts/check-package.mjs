@@ -4,6 +4,7 @@ import { createRequire } from 'node:module'
 const esm = await import('../dist/index.js')
 const require = createRequire(import.meta.url)
 const cjs = require('../dist/index.cjs')
+const { version } = require('../package.json')
 
 for (const entrypoint of [esm, cjs]) {
   assert.equal(typeof entrypoint.default, 'function')
@@ -32,7 +33,7 @@ for (const entrypoint of [esm, cjs]) {
   })
 
   await client.validations.create({ email: 'user@example.com' })
-  assert.equal(userAgent, 'trueform-node/0.1.0')
+  assert.equal(userAgent, `trueform-node/${version}`)
 }
 
 console.log('ESM and CommonJS entry points load correctly.')

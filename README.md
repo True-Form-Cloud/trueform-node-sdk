@@ -1,8 +1,22 @@
 # Trueform Node.js SDK
 
-The official Node.js client for the [Trueform email validation API](https://trueform.cloud/docs/).
+[![npm version][npm-version-badge]][npm-package]
+[![CI][ci-badge]][ci]
+[![Node.js 20+][node-badge]][npm-package]
+[![MIT License][license-badge]][license]
 
-[Node.js SDK documentation](https://trueform.cloud/docs/node/) | [API reference](https://trueform.cloud/docs/api-reference/)
+The official Node.js client for the [Trueform email validation API](https://trueform.cloud/docs/).
+Validate email format, disposable and freemail providers, common domain typos, and mail routing
+without an API key.
+
+[Documentation](https://trueform.cloud/docs/node/) | [API reference](https://trueform.cloud/docs/api-reference/) | [npm][npm-package] | [Changelog](https://github.com/True-Form-Cloud/trueform-node-sdk/blob/main/CHANGELOG.md) | [Issues](https://github.com/True-Form-Cloud/trueform-node-sdk/issues)
+
+## Features
+
+- Typed results and error classes
+- ESM and CommonJS builds with zero runtime dependencies
+- Built-in retries for connection failures, timeouts, rate limits, and server errors
+- Per-request timeouts and `AbortSignal` support
 
 ## Install
 
@@ -127,9 +141,26 @@ npm install
 npm run check
 ```
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Report vulnerabilities
-through the process in [SECURITY.md](SECURITY.md).
+Read the [contributing guide](https://github.com/True-Form-Cloud/trueform-node-sdk/blob/main/CONTRIBUTING.md)
+before opening a pull request. Report vulnerabilities through the process in the
+[security policy](https://github.com/True-Form-Cloud/trueform-node-sdk/blob/main/SECURITY.md).
+
+## Trueform SDKs
+
+| Platform | Registry | Source |
+| --- | --- | --- |
+| Node.js | [`trueform-node` on npm][npm-package] | [GitHub](https://github.com/True-Form-Cloud/trueform-node-sdk) |
+| Ruby | [`trueform` on RubyGems](https://rubygems.org/gems/trueform) | [GitHub](https://github.com/True-Form-Cloud/trueform-ruby-sdk) |
+| Python | [`trueform-cloud` on PyPI](https://pypi.org/project/trueform-cloud/) | [GitHub](https://github.com/True-Form-Cloud/trueform-python-sdk) |
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See the [license][license].
+
+[npm-package]: https://www.npmjs.com/package/trueform-node
+[npm-version-badge]: https://img.shields.io/npm/v/trueform-node?logo=npm&logoColor=white
+[ci]: https://github.com/True-Form-Cloud/trueform-node-sdk/actions/workflows/ci.yml
+[ci-badge]: https://github.com/True-Form-Cloud/trueform-node-sdk/actions/workflows/ci.yml/badge.svg
+[node-badge]: https://img.shields.io/node/v/trueform-node?logo=nodedotjs&logoColor=white
+[license]: https://github.com/True-Form-Cloud/trueform-node-sdk/blob/main/LICENSE
+[license-badge]: https://img.shields.io/github/license/True-Form-Cloud/trueform-node-sdk

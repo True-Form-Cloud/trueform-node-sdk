@@ -62,10 +62,10 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
-    "@types/node": "^24.0.0",
+    "@types/node": "^26.2.0",
     "publint": "^0.3.16",
     "tsup": "^8.5.0",
-    "typescript": "^5.9.0",
+    "typescript": "^7.0.2",
     "vitest": "^4.0.0"
   },
   "overrides": {
